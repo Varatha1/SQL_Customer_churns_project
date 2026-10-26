@@ -37,7 +37,7 @@ group by country
 order by total_counts;
 ----------------------------------------------------------------------------------------------------------------------------------
 
-/*Finding the orders which are all completed and save it in a new table*/
+/*Finding the orders which are all completed and save it in a new view*/
 
 create or replace view clean_sales as
 select 
@@ -66,7 +66,7 @@ group by customer_id;
 
 select * from customers_cohorts;
 ----------------------------------------------------------------------------------------------------------------------------------
-/* Finding the activity of the customers*/
+/* Finding the activity of the customer purchase over months*/
 
 create view cohort_activity as
 select
@@ -79,7 +79,7 @@ date_format(customers_cohorts.cohorts_month, '%Y%m')
 ) as month_number,
 clean_sales.total_amount
 from clean_sales 
-join customers_cohorts on clean_sales.customer_id = clean_sales.customer_id;
+join customers_cohorts on clean_sales.customer_id = customers_cohorts.customer_id;
 
 select * from cohort_activity;
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ from cohort_activity
 group by cohorts_month, month_number
 )
 
-select 
+select     
 r.cohorts_month,
 s.total_cohort_users as cohorts_size,
 r.month_number,
@@ -133,6 +133,19 @@ case
 end as customer_status
 from CustomerRecency 
 order by days_since_last_order asc ;
+----------------------------------------------------------------------------------------------------------------------------------
+
+/* The percentage of order status*/
+SELECT
+    order_status,
+    COUNT(*) AS total_customers,
+    ROUND(
+        COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (),
+        2
+    ) AS percentage
+FROM orders
+GROUP BY order_status;
+
 ----------------------------------------------------------------------------------------------------------------------------------
 /* Finding the distinct order, historical of customer lifetime value and average*/
 
