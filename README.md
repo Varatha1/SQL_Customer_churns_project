@@ -63,7 +63,7 @@ File: [`Customer_behavior.pbix`](Customer_behavior.pbix)
 ## Key Insights
 > Findings.
 - 99% of customers were classified as churned (no order in 90+ days)
-- Month-1 retention averaged 1606%, dropping to 16% by month 10
+- Month-1 retention averaged 100%, dropping to 16.67% by month 10
 - The best-performing cohort was Month 8
 
 ## Dashboard Preview
